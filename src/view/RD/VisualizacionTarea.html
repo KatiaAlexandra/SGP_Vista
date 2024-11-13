@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Tareas por Proyecto y Fase</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    .completed-task {
+      background-color: #d4edda; /* Verde claro */
+      pointer-events: none; /* Desactiva todos los elementos dentro del div */
+      opacity: 0.6; /* Añade opacidad para dar efecto de bloqueado */
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg bg-black">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light">SGP</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="verProyecto.html">Proyectos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="empleados.html">Empleados</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mt-2">
+    <div>
+      <h2 class="text-center mb-4">Gestión de Tareas por Proyecto y Fase</h2>
+      <button class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#taskModal">Agregar Tarea</button>
+    </div>
+
+    <!-- Lista de Proyectos y Fases -->
+    <div class="accordion" id="projectAccordion">
+      <!-- Proyecto 1 -->
+      <div class="card mb-5">
+        <div class="card-header bg-dark" id="project1Header">
+            <h5 class="mb-0 text-light">Proyecto 1</h5>
+        </div>
+
+        <div id="project1" class="collapse show" aria-labelledby="project1Header" data-bs-parent="#projectAccordion">
+          <div class="card-body">
+            <!-- Fases de Proyecto 1 -->
+            <div class="mt-2">
+              <strong>Fase 1</strong>
+              
+              <!-- Tarea A -->
+              <div class="d-flex justify-content-between align-items-center mt-2 task" id="taskA">
+                <label>Tarea A</label>
+                <div>
+                  <button class="btn btn-outline-warning btn-sm me-2">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-outline-success btn-sm" onclick="completeTask('taskA')">
+                    <i class="bi bi-check-square"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Tarea B -->
+              <div class="d-flex justify-content-between align-items-center mt-2 task" id="taskB">
+                <label>Tarea B</label>
+                <div>
+                  <button class="btn btn-outline-warning btn-sm me-2">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-outline-success btn-sm" onclick="completeTask('taskB')">
+                    <i class="bi bi-check-square"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <!-- Otra Fase -->
+            <div class="mt-2">
+              <strong>Fase 2</strong>
+              <div class="d-flex justify-content-between align-items-center mt-2 task" id="taskC">
+                <label>Tarea C</label>
+                <div>
+                  <button class="btn btn-outline-warning btn-sm me-2">
+                    <i class="bi bi-pencil"></i>
+                  </button>
+                  <button class="btn btn-outline-success btn-sm" onclick="completeTask('taskC')">
+                    <i class="bi bi-check-square"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="mt-4">
+              <strong>Fase 3</strong>
+              <button class="btn btn-outline-danger float-end mb-3">Finalizar proyecto</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal de Registro de Tarea -->
+  <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="taskModalLabel">Registrar Nueva Tarea</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="taskForm">
+            <div class="form-group">
+              <label for="taskName">Nombre de la Tarea</label>
+              <input type="text" class="form-control" id="taskName" placeholder="Escribe el nombre de la tarea" required>
+            </div>
+            <div class="form-group">
+              <label for="taskDescription">Descripción</label>
+              <textarea class="form-control" id="taskDescription" rows="3" placeholder="Describe la tarea"></textarea>
+            </div>
+            <br>
+            <button type="submit" class="btn btn-success">Guardar Tarea</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Función para completar la tarea
+    function completeTask(taskId) {
+      const taskDiv = document.getElementById(taskId);
+      taskDiv.classList.add("completed-task"); // Añade la clase de estilo
+
+      // Desactiva los botones dentro del div
+      const buttons = taskDiv.querySelectorAll("button");
+      buttons.forEach(button => {
+        button.disabled = true;
+      });
+    }
+  </script>
+
+  <!-- Bootstrap 5 y Popper.js -->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

@@ -2,6 +2,7 @@
 
     let projectList = {};
     let project = {};
+    let employee = {};
     let apList = [];
     let rdList = [];
     let rapeList = [];
@@ -37,8 +38,8 @@
                             <td>${item.currentPhase}</td>
                         
                             <td class="text-center">
-                                <button class="btn btn-outline-warning" onclick = "loadEmployee(${item.id_Employee})" data-bs-target="#updateModal" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-outline-danger" onclick = "findEmployeeById(${item.id_Employee})" data-bs-target="#deleteModal" data-bs-toggle="modal"><i class="bi bi-trash-fill"></i></button>
+                                <button class="btn btn-outline-warning" onclick = "loadProject(${item.id_project})" data-bs-target="#updateModal" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-outline-primary" onclick = "findEmployeeById(${item.id_Employee})" data-bs-target="#deleteModal" data-bs-toggle="modal"><i class="bi bi-check2-square"></i></button>
                             </td>
                         </tr>`
         });
@@ -73,6 +74,7 @@
             
         }).then(response => response.json()).then(response => {
             console.log(response);
+            rapeList, rdList, apList=null;
             switch(id){
                 case 2:
                     rapeList=response.data;
@@ -87,56 +89,79 @@
         }).catch(console.log);
     }
 
+    const findEmployeeById = async id =>{
+        await fetch(`${URL}/api/employee/${id}`, {
+            method: 'GET',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+            
+        }).then(response => response.json()).then(response => {
+            console.log(response);
+            employee=response.data;
+        }).catch(console.log);   
+    }
+
     const loadData = async () => {
-        await findAllEmployees(2);
-        await findAllEmployees(3);
-        await findAllEmployees(4);
-
-        let rapeSelect = document.getElementById("employeeListRape");
-        let rdSelect = document.getElementById("employeeListRd");
-        let apSelect = document.getElementById("employeeListAp1");
-
-        let content = '';
+       
+            await findAllEmployees(2); 
+            await findAllEmployees(3); 
+            await findAllEmployees(4); 
+        
+        const rapeSelectRegister = document.getElementById("employeeListRape");
+        const rdSelectRegister = document.getElementById("employeeListRd");
+        const apSelectRegister= document.querySelectorAll('.employee-ap');
+        
+        const rapeSelectUpdate = document.getElementById("u_employeeListRape");
+        const rdSelectUpdate = document.getElementById("u_employeeListRd");
+        const apSelectUpdate= document.querySelectorAll('.u-employee-ap');
     
+        let apContent = '';
         if (apList.length === 0) {
-            content = `<option>No hay analistas programadores disponibles</option>`;
-        } else {
+            apContent = `<option>No hay analistas programadores disponibles</option>`;
+        } else if(apList.length<4){
+            apContent = `<option>No suficientes analistas programadores</option>`;
+        }else{
             apList.forEach(item => {
-                content += `<option value="${item.id_Employee}">${item.name}</option>`;
+                apContent += `<option value="${item.id_Employee}">${item.name}</option>`;
             });
         }
-
-        const selects = document.querySelectorAll('.employee-ap');
-        selects.forEach(select => {
-            select.innerHTML = content;
+    
+        apSelectRegister.forEach(select => {
+            select.innerHTML = apContent;
         });
 
-        apSelect.innerHTML = content;
-
-        content = '';
-
+        apSelectUpdate.forEach(select => {
+            select.innerHTML = apContent;
+        });
+        
+    
+      
+        let rdContent = '';
         if (rdList.length === 0) {
-            content = `<option>No hay responsables de desarrollo disponibles</option>`;
+            rdContent = `<option>No hay responsables de desarrollo disponibles</option>`;
         } else {
             rdList.forEach(item => {
-                content += `<option value="${item.id_Employee}">${item.name}</option>`;
+                rdContent += `<option value="${item.id_Employee}">${item.name}</option>`;
             });
         }
-
-        rdSelect.innerHTML = content;
-
-        content = '';
-
+        rdSelectRegister.innerHTML = rdContent;
+        rdSelectUpdate.innerHTML = rdContent;
+    
+      
+        let rapeContent = '';
         if (rapeList.length === 0) {
-            content = `<option>No hay responsables del proyecto disponibles</option>`;
+            rapeContent = `<option>No hay responsables del proyecto disponibles</option>`;
         } else {
             rapeList.forEach(item => {
-                content += `<option value="${item.id_Employee}">${item.name}</option>`;
+                rapeContent += `<option value="${item.id_Employee}">${item.name}</option>`;
             });
         }
-
-        rapeSelect.innerHTML = content;
+        rapeSelectRegister.innerHTML = rapeContent;
+        rapeSelectUpdate.innerHTML = rapeContent;
     };
+    
 
    
     const saveProject = async () => {
@@ -169,5 +194,85 @@
         }).catch(console.log);   
     }
 
+    const loadProject = async id => {
+        await findProjectById(id);
+        await loadData();
+    
+        document.getElementById('id').value = id;
+        document.getElementById('u_name').value = project.name;
+        document.getElementById('u_identifier').value = project.identifier;
+        document.getElementById('u_estimatedDate').value = project.estimatedDate;
+        await findEmployeeById(project.employee[0].id_Employee);
+        document.getElementById('u_employeeListRape').value=employee.id_Employee;
+    
+        if (project.employee && project.employee.length > 0) {
+            for (let i = 1; i < project.employee.length; i++) {
+                let projectEmployee = project.employee[i];
+                await findEmployeeById(projectEmployee.id_Employee);
 
+                if (employee && employee.name && employee.id_Employee) {
+                    let option = new Option(employee.name, employee.id_Employee, true, true);
+                    switch(i) {
+                        case 1:
+                            let rdSelect = document.getElementById('u_employeeListRd');
+                            if (rdSelect) {
+                                rdSelect.add(option, undefined);
+                            } else {
+                                console.warn("Elemento 'u_employeeListRd' no encontrado.");
+                            }
+                            break;
+                        default:
+                            const apSelectors = [
+                                document.getElementById('u_employeeListAp1'),
+                                document.getElementById('u_employeeListAp2'),
+                                document.getElementById('u_employeeListAp3'),
+                                document.getElementById('u_employeeListAp4')
+                            ];
+                            const apIndex = i - 2;
+                            if (apSelectors[apIndex]) {
+                                apSelectors[apIndex].add(option, undefined);
+                            } else {
+                                console.warn(`Elemento 'u_employeeListAp${apIndex + 1}' no encontrado.`);
+                            }
+                            break;
+                    }
+                } else {
+                    console.warn(`EmpData no tiene los datos esperados para el ID: ${employee.id_Employee}`);
+                }
+            }
+        } else {
+            console.log("No se encontraron empleados asignados al proyecto.");
+        }
+    };
+
+    const updateProject = async () => {
+        let form = document.getElementById("updateForm")
+        let updated = {
+            id:document.getElementById('id').value,
+            name: document.getElementById('u_name').value,
+            identifier: document.getElementById('u_identifier').value,
+            estimatedDate: document.getElementById('u_estimatedDate').value,
+            employees:[
+                { id: parseInt(document.getElementById('u_employeeListRape').value) },
+                { id: parseInt(document.getElementById('u_employeeListRd').value)},
+                { id: parseInt(document.getElementById('u_employeeListAp1').value)},
+                { id: parseInt(document.getElementById('u_employeeListAp2').value)},
+                { id: parseInt(document.getElementById('u_employeeListAp3').value)},
+                { id: parseInt(document.getElementById('u_employeeListAp4').value)}]
+        };
+
+        await fetch(`${URL}/api/project`,{
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(updated)
+        }).then(response => response.json()).then(async response=>{
+            console.log(project);
+            project = {};
+            await loadTable();
+            form.reset();
+        }).catch(console.log);   
+    }
     

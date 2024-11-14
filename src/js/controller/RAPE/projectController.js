@@ -7,6 +7,7 @@
     let rdList = [];
     let rapeList = [];
 
+
     const findAllProjects = async() => {
         await fetch(`${URL}/api/project`, {
             method: 'GET',
@@ -39,12 +40,16 @@
                         
                             <td class="text-center">
                                 <button class="btn btn-outline-warning" onclick = "loadProject(${item.id_project})" data-bs-target="#updateModal" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-outline-primary" onclick = "findEmployeeById(${item.id_Employee})" data-bs-target="#deleteModal" data-bs-toggle="modal"><i class="bi bi-check2-square"></i></button>
+                                <button class="btn btn-outline-primary" onclick = "findProjectById(${item.id_project})" data-bs-target="#finishModal" data-bs-toggle="modal" ${item.currentPhase !== "Cierre" ? "disabled" : ""}><i class="bi bi-check2-square"></i></button>
                             </td>
                         </tr>`
         });
         tbody.innerHTML = content;
     }
+
+    
+
+    
 
     (async () =>{
         await loadTable();
@@ -276,3 +281,19 @@
         }).catch(console.log);   
     }
     
+    const finishProject = async () => {
+        console.log(project);
+        await fetch(`${URL}/api/project/finish/${project.id_project}`,{
+            method: 'PUT',
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+    
+        }).then(response => response.json()).then(async response=>{
+            console.log(response);
+            project = {};
+            await loadTable();
+        }).catch(console.log);  
+    
+    }

@@ -1,17 +1,22 @@
     const URL = 'http://localhost:8080';
+    const token = localStorage.getItem('token');
 
     let employeeList = {};
     let employee = {};
     let roleList = [];
+    
 
 
     const findAllEmployees = async() => {
+        console.log(token);
         await fetch(`${URL}/api/employee`, {
             method: 'GET',
             headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            }
+            "Authorization": `Bearer ${token}`, 
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+            
+        }
             
         }).then(response => response.json()).then(response => {
             console.log(response);
@@ -45,7 +50,7 @@
     })()
 
 
-    const findEmployeeById = async id =>{
+    /*const findEmployeeById = async id =>{
         await fetch(`${URL}/api/employee/${id}`, {
             method: 'GET',
             headers: {
@@ -178,4 +183,4 @@
             await loadTable();
         }).catch(console.log);  
     
-    }
+    }*/

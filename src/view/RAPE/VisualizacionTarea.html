@@ -48,66 +48,11 @@
       <!-- Proyecto 1 -->
       <div class="card mb-5 shadow">
         <div class="card-header bg-dark" id="project1Header">
-            <h5 class="mb-0 text-light">Proyecto 1</h5>
+            <h5 class="mb-0 text-light" id="projectName"></h5>
         </div>
 
         <div id="project1" class="collapse show" aria-labelledby="project1Header" data-bs-parent="#projectAccordion">
-          <div class="card-body">
-            <!-- Fases de Proyecto 1 -->
-            <div class="mt-2">
-              <strong>Fase 1</strong>
-              
-              <!-- Tarea A -->
-              <div class="d-flex justify-content-between align-items-center mt-2 task" id="taskA">
-                <label>Tarea A</label>
-                <div>
-                  <button class="btn btn-outline-warning btn-sm me-2">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                  <button class="btn btn-outline-success btn-sm" onclick="completeTask('taskA')">
-                    <i class="bi bi-check-square"></i>
-                  </button>
-                </div>
-              </div>
-
-              <!-- Tarea B -->
-              <div class="d-flex justify-content-between align-items-center mt-2 task" id="taskB">
-                <label>Tarea B</label>
-                <div>
-                  <button class="btn btn-outline-warning btn-sm me-2">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                  <button class="btn btn-outline-success btn-sm" onclick="completeTask('taskB')">
-                    <i class="bi bi-check-square"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <hr>
-
-            <!-- Otra Fase -->
-            <div class="mt-2">
-              <strong>Fase 2</strong>
-              <div class="d-flex justify-content-between align-items-center mt-2 task" id="taskC">
-                <label>Tarea C</label>
-                <div>
-                  <button class="btn btn-outline-warning btn-sm me-2">
-                    <i class="bi bi-pencil"></i>
-                  </button>
-                  <button class="btn btn-outline-success btn-sm" onclick="completeTask('taskC')">
-                    <i class="bi bi-check-square"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            <hr>
-
-            <div class="mt-4">
-              <strong>Fase 3</strong>
-              <button class="btn btn-outline-danger float-end mb-3">Finalizar proyecto</button>
-            </div>
+          <div class="card-body" id="cardBody">
           </div>
         </div>
       </div>
@@ -140,21 +85,7 @@
     </div>
   </div>
 
-  <script>
-    // Función para completar la tarea
-    function completeTask(taskId) {
-      const taskDiv = document.getElementById(taskId);
-      taskDiv.classList.add("completed-task"); // Añade la clase de estilo
-
-      // Desactiva los botones dentro del div
-      const buttons = taskDiv.querySelectorAll("button");
-      buttons.forEach(button => {
-        button.disabled = true;
-      });
-    }
-  </script>
-
-  <!-- Bootstrap 5 y Popper.js -->
+<script src="/src/js/controller/RAPE/task.controller.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 

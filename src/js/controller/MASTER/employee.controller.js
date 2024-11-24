@@ -8,14 +8,12 @@
 
 
     const findAllEmployees = async() => {
-        console.log(token);
         await fetch(`${URL}/api/employee`, {
             method: 'GET',
             headers: {
             "Authorization": `Bearer ${token}`, 
             "Content-Type": "application/json",
-            "Accept": "application/json"
-            
+            "Accept": "application/json"  
         }
             
         }).then(response => response.json()).then(response => {
@@ -50,12 +48,14 @@
     })()
 
 
-    /*const findEmployeeById = async id =>{
+    const findEmployeeById = async id =>{
         await fetch(`${URL}/api/employee/${id}`, {
             method: 'GET',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
                 "Accept": "application/json"
+                
             }
             
         }).then(response => response.json()).then(response => {
@@ -69,8 +69,10 @@
         await fetch(`${URL}/api/rol`, {
             method: 'GET',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
                 "Accept": "application/json"
+                
             }
             
         }).then(response => response.json()).then(response => {
@@ -116,8 +118,10 @@
         await fetch(`${URL}/api/employee`,{
             method: 'POST',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
                 "Accept": "application/json"
+                
             },
             body: JSON.stringify(employee)
         }).then(response => response.json()).then(async response=>{
@@ -154,8 +158,10 @@
         await fetch(`${URL}/api/employee`,{
             method: 'PUT',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
                 "Accept": "application/json"
+                
             },
             //el objeto de java lo pasa a un string
             body: JSON.stringify(updated)
@@ -173,8 +179,10 @@
         await fetch(`${URL}/api/employee/${employee.id_Employee}`,{
             method: 'DELETE',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
                 "Accept": "application/json"
+                
             },
     
         }).then(response => response.json()).then(async response=>{
@@ -183,4 +191,4 @@
             await loadTable();
         }).catch(console.log);  
     
-    }*/
+    }

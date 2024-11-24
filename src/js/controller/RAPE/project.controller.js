@@ -1,4 +1,5 @@
     const URL = 'http://localhost:8080';
+    const token = localStorage.getItem('token');
 
     let projectList = {};
     let project = {};
@@ -12,8 +13,9 @@
         await fetch(`${URL}/api/project`, {
             method: 'GET',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json"  
             }
             
         }).then(response => response.json()).then(response => {
@@ -30,7 +32,7 @@
         projectList.forEach((item, index) => {
             content += `<tr>
                             <th scope="row">${index+1}</th>
-                            <td>${item.name}</td>
+                            <td><a href="VisualizacionTarea.html?id=${item.id_project}">${item.name}</a></td>
                             <td>${item.identifier}</td>
                             <td>${item.startDate}</td>
                             <td>${item.estimatedDate}</td>
@@ -40,7 +42,8 @@
                         
                             <td class="text-center">
                                 <button class="btn btn-outline-warning" onclick = "loadProject(${item.id_project})" data-bs-target="#updateModal" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
-                                <button class="btn btn-outline-primary" onclick = "findProjectById(${item.id_project})" data-bs-target="#finishModal" data-bs-toggle="modal" ${item.currentPhase !== "Cierre" ? "disabled" : ""}><i class="bi bi-check2-square"></i></button>
+                                <button class="btn btn-outline-primary" onclick = "findProjectById(${item.id_project})" data-bs-target="#finishModal" data-bs-toggle="modal" 
+                                ${item.currentPhase !== "Cierre" ? "disabled" : ""}><i class="bi bi-check2-square"></i></button>
                             </td>
                         </tr>`
         });
@@ -59,8 +62,9 @@
         await fetch(`${URL}/api/project/${id}`, {
             method: 'GET',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json"  
             }
             
         }).then(response => response.json()).then(response => {
@@ -73,8 +77,9 @@
         await fetch(`${URL}/api/employee/rol/${id}`, {
             method: 'GET',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json"  
             }
             
         }).then(response => response.json()).then(response => {
@@ -98,10 +103,10 @@
         await fetch(`${URL}/api/employee/${id}`, {
             method: 'GET',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json"  
             }
-            
         }).then(response => response.json()).then(response => {
             console.log(response);
             employee=response.data;
@@ -187,8 +192,9 @@
         await fetch(`${URL}/api/project`,{
             method: 'POST',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json"  
             },
             body: JSON.stringify(project)
         }).then(response => response.json()).then(async response=>{
@@ -269,8 +275,9 @@
         await fetch(`${URL}/api/project`,{
             method: 'PUT',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json"  
             },
             body: JSON.stringify(updated)
         }).then(response => response.json()).then(async response=>{
@@ -286,8 +293,9 @@
         await fetch(`${URL}/api/project/finish/${project.id_project}`,{
             method: 'PUT',
             headers: {
+                "Authorization": `Bearer ${token}`, 
                 "Content-Type": "application/json",
-                "Accept": "application/json"
+                "Accept": "application/json"  
             },
     
         }).then(response => response.json()).then(async response=>{

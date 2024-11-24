@@ -29,6 +29,6 @@ const login = async() => {
         //2.- BLOQUE TRANSFORMACION A JSON
     }).then(response => response.json())./*3.- BLOQUE MANIPULACIÓN*/then(response => {
        localStorage.setItem('token', response.data);//4.- BLOQUE DE ERRORES 
-       window.location.replace('http://127.0.0.1:5500/src/view/MASTER/empleados.html');
+       window.location.replace('http://127.0.0.1:5501/src/view/MASTER/empleados.html');
     }).catch(console.log);
 }

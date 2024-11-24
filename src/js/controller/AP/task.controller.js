@@ -93,6 +93,10 @@ const loadCard = async () => {
                 <div class="d-flex justify-content-between align-items-center">
                     <label class="mb-0">${task.description}</label>
                     <div class="ms-auto d-flex gap-2">
+                      <button class="btn btn-outline-success btn-sm" 
+                        ${task.status ? "disabled" : ""}>
+                            <i class="bi bi-check-square"></i>
+                        </button>
                     </div>
                 </div>`).join('')} <!-- Generar HTML dinámico para cada tarea -->
             </div>

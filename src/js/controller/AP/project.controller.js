@@ -35,16 +35,8 @@
                             <th scope="row">${index+1}</th>
                             <td><a href="VisualizacionTarea.html?id=${item.id_project}">${item.name}</a></td>
                             <td>${item.identifier}</td>
-                            <td>${item.startDate}</td>
-                            <td>${item.estimatedDate}</td>
-                            <td>${item.finishDate==null? "Indeterminada":item.finishDate}</td>
                             <td>${item.status ? "Finalizado":"En proceso"}</td>
                             <td>${item.currentPhase}</td>
-                        
-                            <td class="text-center">
-                                <button class="btn btn-outline-primary" onclick = "findProjectById(${item.id_project})" data-bs-target="#finishModal" data-bs-toggle="modal" 
-                                ${item.currentPhase !== "Cierre" ? "disabled" : ""}><i class="bi bi-check2-square"></i></button>
-                            </td>
                         </tr>`
         });
         tbody.innerHTML = content;
@@ -67,22 +59,4 @@
             console.log(response);
             project = response.data;
         }).catch(console.log);   
-    }
-
-    const finishProject = async () => {
-        console.log(project);
-        await fetch(`${URL}/api/project/finish/${project.id_project}`,{
-            method: 'PUT',
-            headers: {
-                "Authorization": `Bearer ${token}`, 
-                "Content-Type": "application/json",
-                "Accept": "application/json"  
-            },
-    
-        }).then(response => response.json()).then(async response=>{
-            console.log(response);
-            project = {};
-            await loadTable();
-        }).catch(console.log);  
-    
     }

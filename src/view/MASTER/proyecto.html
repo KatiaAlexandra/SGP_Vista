@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Detalles del Proyecto</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-black">
+        <div class="container-fluid">
+          <a class="navbar-brand text-light">SGP</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link text-light" aria-current="page" href="proyecto.html">Proyectos</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text-light" href="empleados.html">Empleados</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+
+<div class="container mt-2">
+    <h2 class="text-center mb-4">Detalles del Proyecto</h2>
+    <button class="btn btn-success mb-2" onclick="loadData()" data-bs-toggle="modal" data-bs-target="#projectModal">Agregar proyecto</button>
+    <table class="table table-striped">
+        <thead>
+            <tr class="table-dark">
+                <th>Id</th>
+                <th>Nombre del Proyecto</th>
+                <th>Identificador</th>
+                <th>Fecha de Inicio</th>
+                <th>Fecha de Estimada</th>
+                <th>Fecha de Terminación</th>
+                <th>Estatus</th>
+                <th>Fase Actual</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody id="tbody">
+        </tbody>
+    </table>
+</div>
+
+
+<!--Registrar nombre, identificador, fecha estimada y empleados-->
+
+<!-- Modal de Registro de proyecto -->
+<div class="modal fade" id="projectModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="taskModalLabel">Registrar nuevo proyecto</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="saveForm">
+            <div class="mb-3">
+              <label for="name" class="form-label">Nombre</label>
+              <input type="text" class="form-control" id="name" required>
+            </div>
+              
+                <div class="mb-3">
+                  <label for="identifier" class="form-label">Identificador del Proyecto</label>
+                  <input type="text" class="form-control" id="identifier" required>
+                </div>
+             
+                <div class="mb-3">
+                  <label for="estimatedDate" >Fecha estimada de finalización del Proyecto</label>
+                  <input type="date" id="estimatedDate" class="form-control">
+                </div>
+
+            
+            <div class="mb-3">
+              <label for="employeeListRape" class="form-label">Responsable del Proyecto</label>
+              <select type="text" name="employeeListRape" id="employeeListRape" class="form-select">              
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="employeeListRd" class="form-label">Responsable de desarrollo</label>
+              <select type="text" name="employeeListRd" id="employeeListRd" class="form-select">              
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="employeeListAp1" class="form-label">Primer analista programador</label>
+              <select type="text" class="employee-ap form-select" name="employeeListAp1" id="employeeListAp1">              
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="employeeListAp2" class="form-label">Segundo analista programador</label>
+              <select type="text" class="employee-ap form-select" name="employeeListAp2" id="employeeListAp2" >              
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="employeeListAp3" class="form-label">Tercer analista programador</label>
+              <select type="text" class="employee-ap form-select" name="employeeListAp3" id="employeeListAp3">              
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="employeeListAp4" class="form-label">Cuarto analista programador</label>
+              <select type="text" class="employee-ap form-select" name="employeeListAp4" id="employeeListAp4">              
+              </select>
+            </div>
+              
+              <div class="row">
+                <div class="col-6">
+                  <button type="button"  onclick="saveProject()"  class="btn btn-success w-100" data-bs-dismiss="modal">Registrarse</button>
+                </div>
+                <div class="col-6">
+                  <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal de Actualización de proyecto -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="taskModalLabel">Actualizar proyectos</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="updateForm">
+          <input type="hidden" id="id">
+          <div class="mb-3">
+            <label for="u_name" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="u_name" required>
+          </div>
+            
+              <div class="mb-3">
+                <label for="u_identifier" class="form-label">Identificador del Proyecto</label>
+                <input type="text" class="form-control" id="u_identifier" required>
+              </div>
+           
+              <div class="mb-3">
+                <label for="u_estimatedDate" >Fecha estimada de finalización del Proyecto</label>
+                <input type="date" id="u_estimatedDate" class="form-control">
+              </div>
+
+          
+          <div class="mb-3">
+            <label for="u_employeeListRape" class="form-label">Responsable del Proyecto</label>
+            <select type="text" name="u_employeeListRape" id="u_employeeListRape" class="form-select">              
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="u_employeeListRd" class="form-label">Responsable de desarrollo</label>
+            <select type="text" name="u_employeeListRd" id="u_employeeListRd" class="form-select">              
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="u_employeeListAp1">Primer analista programador</label>
+            <select type="text" class="u-employee-ap form-select" name="u_employeeListAp1" id="u_employeeListAp1">              
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="u_employeeListAp2" class="form-label">Segundo analista programador</label>
+            <select type="text" class="u-employee-ap form-select" name="u_employeeListAp2" id="u_employeeListAp2" >              
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="u_employeeListAp3" class="form-label">Tercer analista programador</label>
+            <select type="text" class="u-employee-ap form-select" name="u_employeeListAp3" id="u_employeeListAp3">              
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="u_employeeListAp4" class="form-label">Cuarto analista programador</label>
+            <select type="text" class="u-employee-ap form-select" name="u_employeeListAp4" id="u_employeeListAp4">              
+            </select>
+          </div>
+            
+            <div class="row">
+              <div class="col-6">
+                <button type="button"  onclick="updateProject()"  class="btn btn-success w-100" data-bs-dismiss="modal">Registrarse</button>
+              </div>
+              <div class="col-6">
+                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button>
+              </div>
+            </div>
+          </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="finishModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="taskModalLabel">Finalizar proyecto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form id="updateForm">
+            <input type="hidden" id="id">
+            <div class="mt-4 mb-5">
+              <h5 class="text-center">¿Estás seguro de finalizar el proyecto?</h5>
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <button type="button" onclick="finishProject()" class="btn btn-primary w-100" data-bs-dismiss="modal">Finalizar proyecto</button>
+              </div>
+              <div class="col-6">
+                <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button>
+                </div>
+            </div>  
+            </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="/src/js/controller/MASTER/project.controller.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -40,7 +40,6 @@
   <div class="container mt-3">
     <div>
       <h2 class="text-center mb-4">Gestión de Tareas por Proyecto y Fase</h2>
-      <button class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#taskModal">Agregar Tarea</button>
     </div>
 
     <!-- Lista de Proyectos y Fases -->
@@ -54,32 +53,6 @@
         <div id="project1" class="collapse show" aria-labelledby="project1Header" data-bs-parent="#projectAccordion">
           <div class="card-body" id="cardBody">
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal de Registro de Tarea -->
-  <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="taskModalLabel">Registrar Nueva Tarea</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="taskForm">
-            <div class="form-group">
-              <label for="taskName">Nombre de la Tarea</label>
-              <input type="text" class="form-control" id="taskName" placeholder="Escribe el nombre de la tarea" required>
-            </div>
-            <div class="form-group">
-              <label for="taskDescription">Descripción</label>
-              <textarea class="form-control" id="taskDescription" rows="3" placeholder="Describe la tarea"></textarea>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-success">Guardar Tarea</button>
-          </form>
         </div>
       </div>
     </div>

@@ -114,6 +114,9 @@ const loadCard = async () => {
                         <button onclick="loadTask(${task.id})" onclick="loadTask(${task.phase.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-outline-warning btn-sm">
                             <i class="bi bi-pencil" ></i>
                         </button>
+                        <button onclick="changeTaskStatus(${task.id})" class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-check-circle"></i> Cambiar Estado
+                        </button>
                     </div>
                 </div>`).join('')} <!-- Generar HTML dinámico para cada tarea -->
             </div>
@@ -257,5 +260,27 @@ const updateTask = async () => {
         }
     } catch (error) {
         console.error("Error al actualizar la tarea:", error);
+    }
+};
+
+const changeTaskStatus = async (taskId) => {
+    try {
+        const response = await fetch(`${URL}/api/task/${taskId}`, {
+            method: 'PUT',
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        });
+
+        if (response.ok) {
+            console.log("Estado de la tarea cambiado con éxito.");
+            await loadCard(); // Recargar las tareas en la interfaz
+        } else {
+            console.error("Error al cambiar el estado de la tarea:", await response.text());
+        }
+    } catch (error) {
+        console.error("Error al cambiar el estado de la tarea:", error);
     }
 };

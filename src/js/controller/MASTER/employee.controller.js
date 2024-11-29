@@ -1,9 +1,11 @@
     const URL = 'http://localhost:8080';
     const token = localStorage.getItem('token');
+    const rol = localStorage.getItem('rol');
 
     let employeeList = {};
     let employee = {};
     let roleList = [];
+
     
 
 
@@ -33,9 +35,13 @@
                             <td>${item.surname}</td>
                             <td>${item.lastname ==null? "null": item.lastname}</td>
                             <td>${item.email}</td>
-                            <td>${item.status ? "Ocupado":"Libre"}</td>
+                            <td>
+                            <span class="badge ${item.status ? 'text-bg-danger' : 'text-bg-success'}">
+                            ${item.status ? "Ocupado" : "Libre"}
+                            </span>
+                            </td>
                             <td class="text-center">
-                                <button class="btn btn-outline-warning" onclick = "loadEmployee(${item.id_Employee})" data-bs-target="#updateModal" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-outline-primary" onclick = "loadEmployee(${item.id_Employee})" data-bs-target="#updateModal" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
                                 <button class="btn btn-outline-danger" onclick = "findEmployeeById(${item.id_Employee})" data-bs-target="#deleteModal" data-bs-toggle="modal"><i class="bi bi-trash-fill"></i></button>
                             </td>
                         </tr>`
@@ -44,6 +50,9 @@
     }
 
     (async () =>{
+        if(rol!=1){
+            window.location.replace('http://127.0.0.1:5501/index.html');
+        }
         await loadTable();
     })()
 
@@ -105,7 +114,6 @@
         let form = document.getElementById("saveForm")
         employee = {
             username: document.getElementById('username').value,
-            password: document.getElementById('password').value,
             name: document.getElementById('name').value,
             surname: document.getElementById('surname').value,
             lastname: document.getElementById('lastname').value,

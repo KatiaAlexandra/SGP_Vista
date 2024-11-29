@@ -2,6 +2,7 @@ const URL = 'http://localhost:8080';
 const token = localStorage.getItem('token');
 const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get("id"); // Obtener el parámetro `id` de la URL
+const rol = localStorage.getItem('rol');
 let project={};
 let task={};
 
@@ -41,20 +42,24 @@ const findTaskById = async id =>{
     }).catch(console.log);   
 }
 
-const findProjectById = async id =>{
-    await fetch(`${URL}/api/project/${id}`, {
-        method: 'GET',
-        headers: {
-            "Authorization": `Bearer ${token}`, 
-            "Content-Type": "application/json",
-            "Accept": "application/json"  
-        }
-        
-    }).then(response => response.json()).then(response => {
-        console.log(response);
-        project = response.data;
-    }).catch(console.log);   
-}
+const findProject = async id => {
+    try {
+        const response = await fetch(`${URL}/api/project/${id}`, {
+            method: 'GET',
+            headers: {
+                "Authorization": `Bearer ${token}`, 
+                "Content-Type": "application/json",
+                "Accept": "application/json"  
+            }
+        });
+        const data = await response.json();
+        console.log(data);
+        project = data.data
+    } catch (error) {
+        console.error(error);
+    }
+};
+
 
 const findAllPhases = async() =>{
     await fetch(`${URL}/api/phase`, {
@@ -72,7 +77,7 @@ const findAllPhases = async() =>{
 }
 
 const loadCard = async () => {
-    await findProjectById(projectId);
+    await findProject(projectId);
     document.getElementById('projectName').innerHTML = project.name;
     await findAllPhases();
     const cardbody = document.getElementById('cardBody');
@@ -104,6 +109,9 @@ const loadCard = async () => {
 
 
 (async () => {
+    if(rol!=2){
+        window.location.replace('http://127.0.0.1:5501/index.html');
+    }
     await loadCard();
 })();
 

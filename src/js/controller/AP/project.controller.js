@@ -1,6 +1,7 @@
     const URL = 'http://localhost:8080';
     const token = localStorage.getItem('token');
     const username = localStorage.getItem('username');
+    const rol = localStorage.getItem('rol');
 
     let projectList = {};
     let project = {};
@@ -33,16 +34,22 @@
         projectList.forEach((item, index) => {
             content += `<tr>
                             <th scope="row">${index+1}</th>
-                            <td><a href="VisualizacionTarea.html?id=${item.id_project}">${item.name}</a></td>
+                            <td>${item.name}</td>
                             <td>${item.identifier}</td>
                             <td>${item.status ? "Finalizado":"En proceso"}</td>
                             <td>${item.currentPhase}</td>
+                            <td class="text-center">
+                                <button class="btn btn-outline-primary" onclick="taskManage(${item.id_project})"><i class="bi bi-eye"></i></button>
+                            </td>
                         </tr>`
         });
         tbody.innerHTML = content;
     }
 
     (async () =>{
+        if(rol!=4){
+            window.location.replace('http://127.0.0.1:5501/index.html');
+        }
         await loadTable();
     })()
 
@@ -59,4 +66,8 @@
             console.log(response);
             project = response.data;
         }).catch(console.log);   
+    }
+
+    function taskManage(id){
+        window.location.replace(`http://127.0.0.1:5501/src/view/AP/VisualizacionTarea.html?id=${id}`);
     }

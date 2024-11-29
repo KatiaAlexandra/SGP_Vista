@@ -2,6 +2,7 @@ const URL = 'http://localhost:8080';
 const token = localStorage.getItem('token');
 const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get("id"); // Obtener el parámetro `id` de la URL
+const rol = localStorage.getItem('rol');
 let project={};
 let task={};
 
@@ -93,8 +94,8 @@ const loadCard = async () => {
                 <div class="d-flex justify-content-between align-items-center">
                     <label class="mb-0">${task.description}</label>
                     <div class="ms-auto d-flex gap-2">
-                        <button class="btn btn-outline-warning btn-sm">
-                            <i class="bi bi-pencil"></i>
+                        <button class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil-square"></i>
                         </button>
                     </div>
                 </div>`).join('')} <!-- Generar HTML dinámico para cada tarea -->
@@ -107,6 +108,9 @@ const loadCard = async () => {
 
 
 (async () => {
+    if(rol!=3){
+        window.location.replace('http://127.0.0.1:5501/index.html');
+    }
     await loadCard();
 })();
 

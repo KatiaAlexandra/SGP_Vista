@@ -13,6 +13,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- Menú principal a la izquierda -->
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link text-light" aria-current="page" href="proyecto.html">Proyectos</a>
@@ -21,9 +22,18 @@
             <a class="nav-link text-light" href="empleados.html">Empleados</a>
           </li>
         </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="navbar-text text-light" id="nombreDeUsuario"></span>
+          </li>
+          <li class="nav-item">
+            <button style="background-color: black; color: aliceblue;"><i class="bi bi-box-arrow-right"></i></button>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
+  
 
 <div class="container mt-2">
     <h2 class="text-center mb-4">Información de empleados</h2>
@@ -86,13 +96,9 @@
                   <label for="email" class="form-label">Correo Electrónico</label>
                   <input type="email" class="form-control" id="email" required>
                 </div>
-                <div class="mb-3">
-                  <label for="password" class="form-label">Contraseña</label>
-                  <input type="password" class="form-control" id="password" required>
-                </div>
                 <div class="row">
                   <div class="col-6">
-                    <button type="submit"  onclick="saveEmployee()"  class="btn btn-success w-100" data-bs-dismiss="modal">Registrarse</button>
+                    <button type="button"  onclick="saveEmployee()"  class="btn btn-success w-100" data-bs-dismiss="modal">Registrar</button>
                   </div>
                   <div class="col-6">
                     <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button>
@@ -140,7 +146,7 @@
                 <input type="email" class="form-control" id="u_email" required>
               </div>
               <div class="row">
-                <div class="col-6"><button type="button" onclick="updateEmployee()" class="btn btn-warning w-100" data-bs-dismiss="modal">Actualizar</button></div>
+                <div class="col-6"><button type="button" onclick="updateEmployee()" class="btn btn-primary w-100" data-bs-dismiss="modal">Actualizar</button></div>
                 <div class="col-6"> <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button></div>
               </div>
             </form>
@@ -177,6 +183,10 @@
     </div>
   </div>
 </div>
+<script>
+const username=localStorage.getItem('username');
+document.getElementById('nombreDeUsuario').textContent = username;
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 <script src="/src/js/controller/MASTER/employee.controller.js"></script>

@@ -1,5 +1,6 @@
     const URL = 'http://localhost:8080';
     const token = localStorage.getItem('token');
+    const rol = localStorage.getItem('rol');
 
     let projectList = {};
     let project = {};
@@ -41,7 +42,7 @@
                             <td>${item.currentPhase}</td>
                         
                             <td class="text-center">
-                                <button class="btn btn-outline-warning" onclick = "loadProject(${item.id_project})" data-bs-target="#updateModal" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-outline-primary" onclick = "loadProject(${item.id_project})" data-bs-target="#updateModal" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
                             </td>
                         </tr>`
         });
@@ -49,6 +50,9 @@
     }
 
     (async () =>{
+        if(rol!=1){
+            window.location.replace('http://127.0.0.1:5501/index.html');
+        }
         await loadTable();
     })()
 

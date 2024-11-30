@@ -57,30 +57,55 @@
   </div>
 
   <!-- Modal de Registro de Tarea -->
-  <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
       <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="taskModalLabel">Registrar Nueva Tarea</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <form id="taskForm">
-            <div class="form-group">
-              <label for="taskName">Nombre de la Tarea</label>
-              <input type="text" class="form-control" id="taskName" placeholder="Escribe el nombre de la tarea" required>
-            </div>
-            <div class="form-group">
-              <label for="taskDescription">Descripción</label>
-              <textarea class="form-control" id="taskDescription" rows="3" placeholder="Describe la tarea"></textarea>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-success">Guardar Tarea</button>
-          </form>
-        </div>
+          <div class="modal-header">
+              <h5 class="modal-title" id="taskModalLabel">Registrar Nueva Tarea</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="taskForm">
+                  <div class="form-group">
+                      <label for="phaseList">Fase de la tarea</label>
+                      <select name="phaseList" id="phaseList" class="form-select" required>
+                          <!-- Opciones generadas dinámicamente -->
+                      </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="description">Descripción</label>
+                      <textarea class="form-control" id="description" rows="3" placeholder="Describe la tarea" required></textarea>
+                  </div>
+                  <br>
+                  <button type="submit" class="btn btn-success">Guardar Tarea</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal de Actualización de Tarea -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">Actualizar Tarea</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="updateForm">
+          <input type="hidden" id="taskId" />
+          <div class="form-group">
+            <label for="u_description">Descripción</label>
+            <textarea class="form-control" id="u_description" rows="3" placeholder="Describe la tarea" required></textarea>
+          </div>
+          <br>
+          <button type="button" class="btn btn-primary" onclick="updateTask()">Actualizar Tarea</button>
+        </form>
       </div>
     </div>
   </div>
+</div>
 
 <script src="/src/js/controller/RD/task.controller.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>

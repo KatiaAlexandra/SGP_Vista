@@ -2,6 +2,7 @@ const URL = 'http://localhost:8080';
 const token = localStorage.getItem('token');
 const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get("id"); // Obtener el parámetro `id` de la URL
+const rol = localStorage.getItem('rol');
 let project={};
 let task={};
 
@@ -107,6 +108,9 @@ const loadCard = async () => {
 
 
 (async () => {
+    if(rol!=4){
+        window.location.replace('http://127.0.0.1:5501/index.html');
+    }
     await loadCard();
 })();
 

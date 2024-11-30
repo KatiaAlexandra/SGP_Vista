@@ -54,6 +54,7 @@ const login = async () => {
             }
 
             await findEmployeeRol();
+            localStorage.setItem('rol', rol);
             if(rol==1){
                 window.location.replace('http://127.0.0.1:5501/src/view/MASTER/empleados.html');
             }else if(rol==2){

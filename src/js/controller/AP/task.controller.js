@@ -94,9 +94,8 @@ const loadCard = async () => {
                 <div class="d-flex justify-content-between align-items-center">
                     <label class="mb-0">${task.description}</label>
                     <div class="ms-auto d-flex gap-2">
-                      <button class="btn btn-outline-success btn-sm" 
-                        ${task.status ? "disabled" : ""}>
-                            <i class="bi bi-check-square"></i>
+                        <button onclick="changeTaskStatus(${task.id})" class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-check-circle"></i> Cambiar Estado
                         </button>
                     </div>
                 </div>`).join('')} <!-- Generar HTML dinámico para cada tarea -->
@@ -114,5 +113,28 @@ const loadCard = async () => {
     }
     await loadCard();
 })();
+
+const changeTaskStatus = async (taskId) => {
+    try {
+        const response = await fetch(`${URL}/api/task/${taskId}`, {
+            method: 'PUT',
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                "Content-Type": "application/json",
+                "Accept": "application/json",
+            },
+        });
+
+        if (response.ok) {
+            console.log("Estado de la tarea cambiado con éxito.");
+            await loadCard(); // Recargar las tareas en la interfaz
+        } else {
+            console.error("Error al cambiar el estado de la tarea:", await response.text());
+        }
+    } catch (error) {
+        console.error("Error al cambiar el estado de la tarea:", error);
+    }
+};
+
 
  

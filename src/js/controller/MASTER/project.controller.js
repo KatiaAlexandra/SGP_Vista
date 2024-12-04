@@ -38,11 +38,16 @@
                             <td>${item.startDate}</td>
                             <td>${item.estimatedDate}</td>
                             <td>${item.finishDate==null? "Indeterminada":item.finishDate}</td>
-                            <td>${item.status ? "Finalizado":"En proceso"}</td>
-                            <td>${item.currentPhase}</td>
-                        
+                            <td>
+                            <span class="badge ${item.status ? 'text-bg-danger' : 'text-bg-success'}">
+                            ${item.status ? "Finalizado":"En proceso"}
+                            </span>
+                            </td>
+                            <td>${item.status ? "N/A" : item.currentPhase}</td>
                             <td class="text-center">
-                                <button class="btn btn-outline-primary" onclick = "loadProject(${item.id_project})" data-bs-target="#updateModal" data-bs-toggle="modal"><i class="bi bi-pencil-square"></i></button>
+                                <button class="btn btn-outline-primary"  ${item.status ? "disabled":""}
+                                onclick = "loadProject(${item.id_project})" data-bs-target="#updateModal" data-bs-toggle="modal" >
+                                <i class="bi bi-pencil-square"></i></button>
                             </td>
                         </tr>`
         });
@@ -177,6 +182,7 @@
         project = {
             name: document.getElementById('name').value,
             identifier: document.getElementById('identifier').value,
+            startDate:document.getElementById('startDate').value,
             estimatedDate: document.getElementById('estimatedDate').value,
             employees:[
                 { id: parseInt(document.getElementById('employeeListRape').value) },
@@ -210,6 +216,7 @@
         document.getElementById('id').value = id;
         document.getElementById('u_name').value = project.name;
         document.getElementById('u_identifier').value = project.identifier;
+        document.getElementById('u_startDate').value = project.startDate;
         document.getElementById('u_estimatedDate').value = project.estimatedDate;
         await findEmployeeById(project.employee[0].id_Employee);
         document.getElementById('u_employeeListRape').value=employee.id_Employee;
@@ -260,6 +267,7 @@
             id:document.getElementById('id').value,
             name: document.getElementById('u_name').value,
             identifier: document.getElementById('u_identifier').value,
+            startDate: document.getElementById('u_startDate').value,
             estimatedDate: document.getElementById('u_estimatedDate').value,
             employees:[
                 { id: parseInt(document.getElementById('u_employeeListRape').value) },

@@ -56,6 +56,7 @@
         if(rol!=2){
             window.location.replace('http://127.0.0.1:5501/index.html');
         }
+        document.getElementById('nombreDeUsuario').textContent = username;
         await loadTable();
     })()
 
@@ -93,5 +94,5 @@
     }
 
     function taskManage(id){
-        window.location.replace(`http://127.0.0.1:5501/src/view/RAPE/VisualizacionTarea.html?id=${id}`);
+        window.location.replace(`http://127.0.0.1:5501/src/view/RAPE/tareas.html?id=${id}`);
     }

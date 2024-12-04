@@ -11,6 +11,7 @@
     let rapeList = [];
 
 
+
     const findAllProjects = async() => {
         await fetch(`${URL}/api/project/user/${username}`, {
             method: 'GET',
@@ -53,6 +54,7 @@
         if(rol!=3){
             window.location.replace('http://127.0.0.1:5501/index.html');
         }
+        document.getElementById('nombreDeUsuario').textContent = username;
         await loadTable();
     })()
 
@@ -73,5 +75,5 @@
 
     
     function taskManage(id){
-        window.location.replace(`http://127.0.0.1:5501/src/view/RD/VisualizacionTarea.html?id=${id}`);
+        window.location.replace(`http://127.0.0.1:5501/src/view/RD/tareas.html?id=${id}`);
     }

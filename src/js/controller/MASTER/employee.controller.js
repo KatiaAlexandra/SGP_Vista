@@ -137,8 +137,15 @@
             employee = {};
             await loadTable();
             form.reset();
-        }).catch(console.log);   
+            sweetAlert("Registro exitoso", "El empleado ha sido registrado exitosamente", "success");
+        }).catch( error=>{
+            console.log(error);
+            sweetAlert("Ocurrió un error", "No se ha podido registrar al empleado", "error");
+            } 
+        );       
     }
+
+    
 
 
     const loadEmployee = async id =>{
@@ -178,7 +185,12 @@
             employee = {};
             await loadTable();
             form.reset();
-        }).catch(console.log);  
+            sweetAlert("Actualización exitosa", "El empleado ha sido actualizado exitosamente", "success");
+        }).catch( error=>{
+            console.log(error);
+            sweetAlert("Ocurrió un error", "No se ha podido actualizar al empleado", "error");
+            } 
+        );  
     }
 
 
@@ -197,6 +209,18 @@
             console.log(response);
             employee = {};
             await loadTable();
-        }).catch(console.log);  
-    
+            sweetAlert("Eliminación exitosa", "El empleado ha sido eliminado exitosamente", "success");
+        }).catch( error=>{
+            console.log(error);
+            sweetAlert("Ocurrió un error", "No se ha podido eliminar al empleado", "error");
+            } 
+        );  
+    }
+
+     const sweetAlert = async(title, message, type)=>{
+        await Swal.fire({
+            title: `${title}`,
+            text: `${message}`,
+            icon: `${type}`
+          });
     }

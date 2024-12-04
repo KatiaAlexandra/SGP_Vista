@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gestión de Tareas por Proyecto y Fase</title>
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    .board {
+      display: flex;
+      gap: 10px; 
+      padding: 10px;
+      justify-content: space-evenly; 
+    }
+
+    .phase-list {
+      flex: 1; /* Cada fase ocupa un espacio proporcional */
+      max-height: 80vh;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto; /* Scroll interno para tareas si son muchas */
+    }
+
+    .phase-list h5 {
+      text-align: center;
+      background-color: #343a40;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .task-container {
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+
+    .task-card {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between; /* Espacio entre texto y botones */
+      align-items: center;
+    }
+
+    .task-card:hover {
+      background-color: #f1f3f5;
+    }
+
+    .task-buttons {
+      display: flex;
+      gap: 5px; /* Espaciado entre botones */
+    }
+
+    @media (max-width: 768px) {
+      .board {
+        flex-wrap: wrap; /* Cambia las fases a filas en pantallas pequeñas */
+        gap: 10px;
+      }
+      .phase-list {
+        flex: 1 1 calc(50% - 10px); /* Dos fases por fila */
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-lg bg-black">
+    <div class="container-fluid">
+      <a class="navbar-brand text-light">SGP</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="verProyecto.html">Proyectos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" aria-current="page" href="perfil.html">Perfil</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <span class="navbar-text text-light" id="nombreDeUsuario"></span>
+            <button onclick="logout()" class="btn bg-black" ><i class="bi bi-box-arrow-right text-light"></i></button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+  <div class="container mt-3">
+    <h2 class="text-center mb-4" id="projectName"></h2>
+    <div class="board">
+      <!-- Fase 1 -->
+      <div class="phase-list">
+        <h5>Inicio</h5>
+        <div class="task-container" id="faseInicio">
+        </div>
+      </div>
+
+      <!-- Fase 2 -->
+      <div class="phase-list">
+        <h5>Planeación</h5>
+        <div class="task-container" id="fasePlaneación">
+        </div>
+      </div>
+
+      <!-- Fase 3 -->
+      <div class="phase-list">
+        <h5>Ejecución</h5>
+        <div class="task-container" id="faseEjecución">
+        </div>
+      </div>
+
+      <!-- Fase 4 -->
+      <div class="phase-list">
+        <h5>Control</h5>
+        <div class="task-container" id="faseControl">
+        </div>
+      </div>
+
+      <!-- Fase 5 -->
+      <div class="phase-list">
+        <h5>Cierre</h5>
+        <div class="task-container" id="faseCierre">
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Modal de Registro de Tarea -->
+<div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="taskModalLabel">Registrar Nueva Tarea</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              <form id="taskForm">
+                  <div class="form-group">
+                      <label for="phaseList">Fase de la tarea</label>
+                      <select name="phaseList" id="phaseList" class="form-select" required>
+                          <!-- Opciones generadas dinámicamente -->
+                      </select>
+                  </div>
+                  <div class="form-group">
+                      <label for="description">Descripción</label>
+                      <textarea class="form-control" id="description" rows="3" placeholder="Describe la tarea" required></textarea>
+                  </div>
+                  <br>
+                  <div class="row">
+                    <div class="col-6">
+                      <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button>
+                    </div>
+                    <div class="col-6">
+                      <button type="button" class="btn btn-success w-100" onclick="saveTask()" data-bs-dismiss="modal">Registrar</button>
+                    </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- Modal de Actualización de Tarea -->
+<div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateModalLabel">Actualizar Tarea</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="updateForm">
+          <input type="hidden" id="taskId" />
+          <div class="form-group">
+            <label for="u_description">Descripción</label>
+            <textarea class="form-control" id="u_description" rows="3" placeholder="Describe la tarea" required></textarea>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-6">
+              <button type="button" class="btn btn-secondary w-100" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+            <div class="col-6">
+              <button type="button" class="btn btn-primary w-100" onclick="updateTask()" data-bs-dismiss="modal">Actualizar</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  const username=localStorage.getItem('username');
+  document.getElementById('nombreDeUsuario').textContent = username;
+  </script>
+  <script src="/src/js/controller/RAPE/task.controller.js"></script>
+  <script src="/src/js/controller/logout.controller.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

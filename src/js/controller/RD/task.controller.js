@@ -1,5 +1,6 @@
 const URL = 'http://localhost:8080';
 const token = localStorage.getItem('token');
+const username = localStorage.getItem('username');
 const urlParams = new URLSearchParams(window.location.search);
 const projectId = urlParams.get("id"); // Obtener el parámetro `id` de la URL
 const rol = localStorage.getItem('rol');
@@ -90,48 +91,42 @@ const findAllPhases = async () => {
     }
 };
 
+
 const loadCard = async () => {
     await findProjectById(projectId);
+    console.log(project);
     document.getElementById('projectName').innerHTML = project.name;
+
     await findAllPhases();
-    const cardbody = document.getElementById('cardBody');
-    let content = '';
 
-    for (const [index, phase] of phaseList.entries()) {
-        if (phase.id === 5) {
-            continue;
-        }
-
+    for (const phase of phaseList) {
         const tasks = await findAllTasks(projectId, phase.id);
-        
-        content += `
-        <div class="mt-2">
-            <strong>${phase.name}</strong>
-            <div class="mt-2">
-                ${tasks.map(task => `
-                <div class="d-flex justify-content-between align-items-center">
-                    <label class="mb-0">${task.description}</label>
-                    <div class="ms-auto d-flex gap-2">
-                        <button onclick="loadTask(${task.id})" onclick="loadTask(${task.phase.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-outline-warning btn-sm">
-                            <i class="bi bi-pencil" ></i>
+        const taskContainer = document.getElementById(`fase${phase.name}`);
+
+        if (tasks.length > 0 && taskContainer) {
+            let content = tasks.map(task => `
+                <div class="task-card d-flex justify-content-between align-items-center">
+                    <span>${task.description}</span>
+                    <div class="task-buttons d-flex flex-column">
+                        <button onclick="loadTask(${task.id}, ${phase.id})" data-bs-toggle="modal" data-bs-target="#updateModal" class="btn btn-outline-primary btn-sm">
+                            <i class="bi bi-pencil-square"></i>
                         </button>
-                        <button onclick="changeTaskStatus(${task.id})" class="btn btn-outline-success btn-sm">
-                            <i class="bi bi-check-circle"></i> Cambiar Estado
+                        <!--<button onclick="changeTaskStatus(${task.id})" class="btn btn-outline-success btn-sm">
+                            <i class="bi bi-check-circle"></i>-->
                         </button>
                     </div>
-                </div>`).join('')} <!-- Generar HTML dinámico para cada tarea -->
-            </div>
-        </div>`;
-    }
-
-    cardbody.innerHTML = content;
+                </div>
+            `).join('');
+            taskContainer.innerHTML = content;
+        }
+    };
 };
-
 
 (async () => {
     if(rol!=3){
         window.location.replace('http://127.0.0.1:5501/index.html');
     }
+    document.getElementById('nombreDeUsuario').textContent = username;
     await loadCard();
 })();
 
@@ -167,8 +162,7 @@ const saveTask = async () => {
             form.reset();
 
             // Cerrar el modal (opcional)
-            const modal = bootstrap.Modal.getInstance(document.getElementById('taskModal'));
-            modal.hide();
+        
         } else {
             console.error("Error al guardar la tarea:", await response.text());
         }

@@ -3,21 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gestión de Tareas</title>
+  <title>Gestión de Tareas por Proyecto y Fase</title>
   <!-- Bootstrap 5 CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <style>
-    .completed-task {
-      background-color: #d4edda; /* Verde claro */
-      pointer-events: none; /* Desactiva todos los elementos dentro del div */
-      opacity: 0.6; /* Añade opacidad para dar efecto de bloqueado */
+    .board {
+      display: flex;
+      gap: 10px; 
+      padding: 10px;
+      justify-content: space-evenly; 
+    }
+
+    .phase-list {
+      flex: 1; /* Cada fase ocupa un espacio proporcional */
+      max-height: 80vh;
+      background-color: #f8f9fa;
+      border-radius: 5px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto; /* Scroll interno para tareas si son muchas */
+    }
+
+    .phase-list h5 {
+      text-align: center;
+      background-color: #343a40;
+      color: #fff;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .task-container {
+      flex-grow: 1;
+      overflow-y: auto;
+    }
+
+    .task-card {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between; /* Espacio entre texto y botones */
+      align-items: center;
+    }
+
+    .task-card:hover {
+      background-color: #f1f3f5;
+    }
+
+    .task-buttons {
+      display: flex;
+      gap: 5px; /* Espaciado entre botones */
+    }
+
+    @media (max-width: 768px) {
+      .board {
+        flex-wrap: wrap; /* Cambia las fases a filas en pantallas pequeñas */
+        gap: 10px;
+      }
+      .phase-list {
+        flex: 1 1 calc(50% - 10px); /* Dos fases por fila */
+      }
     }
   </style>
 </head>
 <body>
 
+  <!-- Barra de navegación -->
   <nav class="navbar navbar-expand-lg bg-black">
     <div class="container-fluid">
       <a class="navbar-brand text-light">SGP</a>
@@ -25,38 +83,80 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="navbar-nav me-auto">
           <li class="nav-item">
             <a class="nav-link text-light" aria-current="page" href="verProyecto.html">Proyectos</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="empleados.html">Empleados</a>
+          </li>
         </ul>
+        <a href="../../../index.html" class="btn btn-outline-light">Cerrar sesión</a>
       </div>
     </div>
-  </nav>
+  </nav>  
 
   <div class="container mt-3">
-    <div>
-      <h2 class="text-center mb-4">Gestión de Tareas</h2>
-      <button class="btn btn-success mb-2" data-bs-toggle="modal" data-bs-target="#taskModal">Agregar Tarea</button>
+    <h2 class="text-center mb-4">Gestión de Tareas</h2>
+    <div class="d-flex justify-content-start mb-3">
+      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#taskModal">
+        Agregar Tarea
+      </button>
     </div>
-
-    <!-- Lista de Proyectos y Fases -->
-    <div class="accordion" id="projectAccordion">
-      <!-- Proyecto 1 -->
-      <div class="card mb-5 shadow">
-        <div class="card-header bg-dark" id="project1Header">
-            <h5 class="mb-0 text-light" id="projectName"></h5>
-        </div>
-
-        <div id="project1" class="collapse show" aria-labelledby="project1Header" data-bs-parent="#projectAccordion">
-          <div class="card-body" id="cardBody">
+    <div class="board">
+      <!-- Fase 1 -->
+      <div class="phase-list">
+        <h5>Inicio</h5>
+        <div class="task-container" id="faseInicio">
+          <div class="task-card">
+            <span>Hacer diagramas de caso de uso</span>
+            <div class="task-buttons d-flex flex-column">
+              <button class="btn btn-outline-primary btn-sm">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
           </div>
+        </div>
+      </div>
+
+      <!-- Fase 2 -->
+      <div class="phase-list">
+        <h5>Planeación</h5>
+        <div class="task-container" id="fasePlaneacion">
+          <div class="task-card">Sin tareas</div>
+        </div>
+      </div>
+
+      <!-- Fase 3 -->
+      <div class="phase-list">
+        <h5>Ejecución</h5>
+        <div class="task-container" id="faseEjecucion">
+          <div class="task-card">Sin tareas</div>
+        </div>
+      </div>
+
+      <!-- Fase 4 -->
+      <div class="phase-list">
+        <h5>Control</h5>
+        <div class="task-container" id="faseControl">
+          <div class="task-card">Sin tareas</div>
+        </div>
+      </div>
+
+      <!-- Fase 5 -->
+      <div class="phase-list">
+        <h5>Cierre</h5>
+        <div class="task-container" id="faseCierre">
+          <div class="task-card">Sin tareas</div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal de Registro de Tarea -->
+   <!-- Modal de Registro de Tarea -->
 <div class="modal fade" id="taskModal" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
       <div class="modal-content">
